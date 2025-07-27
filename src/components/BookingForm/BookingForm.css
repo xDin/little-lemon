@@ -1,0 +1,14 @@
+.booking-form label { font-weight: 600; }
+.booking-form input,
+.booking-form select {
+  padding: .6rem .8rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font: inherit;
+}
+.booking-form input:focus,
+.booking-form select:focus {
+  outline: none;
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(244, 206, 20, .25);
+}
