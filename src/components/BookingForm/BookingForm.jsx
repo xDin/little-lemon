@@ -1,89 +1,86 @@
-import { useMemo, useState } from "react";
-import "./BookingForm.css";
+import { useState } from 'react';
+import './BookingForm.css'; 
 
-export default function BookingForm() {
-  // Local state (will be lifted later)
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [guests, setGuests] = useState(2);
-  const [occasion, setOccasion] = useState("Birthday");
+export default function BookingForm({ availableTimes, dispatch, onSubmit, minDate }) {
+  const [form, setForm] = useState({
+    date: minDate,
+    time: availableTimes?.[0] ?? '',
+    guests: 2,
+    occasion: 'None',
+  });
 
-  // For now, keep times locally as required by the exercise
-  const [availableTimes] = useState(["17:00", "18:00", "19:00", "20:00", "21:00"]);
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm(f => ({ ...f, [name]: value }));
 
-  // Block past dates
-  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
+    if (name === 'date') {
+      // inform reducer so it recalculates slots for this date
+      dispatch({ type: 'date', payload: value });
+    }
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = { date, time, guests: Number(guests), occasion };
-    // Later: call API or lift state to parent
-    console.log("Reservation submitted:", payload);
-    alert("Reservation submitted! Check console for payload.");
-  }
+    if (!form.time) return;
+    onSubmit(form);
+  };
+
+  // keep selected time valid if list changed
+  const timeOptions = availableTimes?.length ? availableTimes : [];
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="booking-form"
-      style={{ display: "grid", gap: "1rem", maxWidth: 420 }}
-      aria-labelledby="booking-title"
-    >
-      <h2 id="booking-title" style={{ margin: 0 }}>Reserve a table</h2>
+    <form onSubmit={handleSubmit} className="booking-form" style={{ display: 'grid', gap: '1rem', maxWidth: 420 }}>
+      <label>
+        Date
+        <input
+          type="date"
+          name="date"
+          value={form.date}
+          min={minDate}
+          onChange={onChange}
+          required
+        />
+      </label>
 
-      {/* Date */}
-      <label htmlFor="res-date">Choose date</label>
-      <input
-        id="res-date"
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        min={todayISO}
-        required
-      />
+      <label>
+        Time
+        <select
+          name="time"
+          value={timeOptions.includes(form.time) ? form.time : (timeOptions[0] ?? '')}
+          onChange={onChange}
+          required
+        >
+        {timeOptions.length === 0 ? (
+          <option value="" disabled>No times available</option>
+        ) : (
+          timeOptions.map(t => <option key={t} value={t}>{t}</option>)
+        )}
+        </select>
+      </label>
 
-      {/* Time */}
-      <label htmlFor="res-time">Choose time</label>
-      <select
-        id="res-time"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-        required
-      >
-        <option value="" disabled>
-          Select a time
-        </option>
-        {availableTimes.map((t) => (
-          <option key={t} value={t}>{t}</option>
-        ))}
-      </select>
+      <label>
+        Guests
+        <input
+          type="number"
+          name="guests"
+          min="1"
+          max="10"
+          value={form.guests}
+          onChange={onChange}
+          required
+        />
+      </label>
 
-      {/* Guests */}
-      <label htmlFor="guests">Number of guests</label>
-      <input
-        id="guests"
-        type="number"
-        min={1}
-        max={10}
-        value={guests}
-        onChange={(e) => setGuests(e.target.value)}
-        required
-      />
+      <label>
+        Occasion
+        <select name="occasion" value={form.occasion} onChange={onChange}>
+          <option>None</option>
+          <option>Birthday</option>
+          <option>Anniversary</option>
+        </select>
+      </label>
 
-      {/* Occasion */}
-      <label htmlFor="occasion">Occasion</label>
-      <select
-        id="occasion"
-        value={occasion}
-        onChange={(e) => setOccasion(e.target.value)}
-      >
-        <option>Birthday</option>
-        <option>Anniversary</option>
-      </select>
-
-      <button className="btn btn-yellow" type="submit">
-        Submit reservation
-      </button>
+      <button type="submit" className="btn btn-yellow">Reserve</button>
     </form>
   );
 }

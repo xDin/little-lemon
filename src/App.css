@@ -1,6 +1,3 @@
-/* ────────────────────────────
-   0. Brand variables
-   ──────────────────────────── */
 :root {
   --green-dark:   #495E57;
   --yellow:       #F4CE14;
@@ -9,7 +6,7 @@
   --gray-light:   #EDEFEE;
   --gray-dark:    #333333;
   --max-width:    1000px;
-  --gutter:       1rem;   /* side padding on mobile */
+  --gutter:       1rem; 
 }
 
 /* ────────────────────────────
@@ -24,7 +21,6 @@ body {
   color: var(--gray-dark);
 }
 
-/* Generic page wrapper to keep content centered */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -61,7 +57,6 @@ header img { height: 50px; }
 
 .nav-list a:hover { color: var(--yellow); }
 
-/* small‑screen: let links wrap instead of overflowing */
 @media (max-width: 750px) {
   .nav-list {
     flex-wrap: wrap;
@@ -69,17 +64,6 @@ header img { height: 50px; }
     justify-content: center;
   }
 }
-
-/* ────────────────────────────
-   3. Hero section
-   ──────────────────────────── */
-
-/*
-header .container {
-  padding-left: 0;
-  padding-right: 0;
-}*/
-
 
 /* ────────────────────────────
    5. Footer
