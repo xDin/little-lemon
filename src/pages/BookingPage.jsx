@@ -1,7 +1,8 @@
+/* global fetchAPI, submitAPI */
+
 import { useReducer, useMemo } from 'react';
 import BookingForm from '../components/BookingForm/BookingForm';
 import BookingSlots from '../components/BookingForm/BookingSlots';
-import { fetchAPI } from '../utils/bookingUtils';
 
 // --- reducer ---
 function updateTimes(state, action) {

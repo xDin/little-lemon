@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './BookingForm.css'; 
+import './BookingForm.css';
 
 export default function BookingForm({ availableTimes, dispatch, onSubmit, minDate }) {
   const [form, setForm] = useState({
