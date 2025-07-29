@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './BookingForm.css';
 
 export default function BookingForm({ availableTimes, dispatch, onSubmit, minDate }) {

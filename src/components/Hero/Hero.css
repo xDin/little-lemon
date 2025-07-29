@@ -61,7 +61,7 @@ button {
   object-fit: cover;
   border-radius: 12px;
   display: block;
-  transform: translateY(50px); /* 👈 push image downward */
+  transform: translateY(50px) translateX(-16px); /* 👈 push image downward */
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.12); /* optional polish */
 }
 .hero-image {

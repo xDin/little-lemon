@@ -1,8 +1,10 @@
-/* global fetchAPI, submitAPI */
 
 import { useReducer, useMemo } from 'react';
 import BookingForm from '../components/BookingForm/BookingForm';
 import BookingSlots from '../components/BookingForm/BookingSlots';
+import { useNavigate } from 'react-router-dom';
+
+/* global fetchAPI, submitAPI */
 
 // --- reducer ---
 function updateTimes(state, action) {
@@ -25,16 +27,18 @@ function initializeTimes() {
 }
 
 export default function BookingPage() {
+  const navigate = useNavigate();
   const [availableTimes, dispatch] = useReducer(updateTimes, undefined, initializeTimes);
 
-  // (optional) memo: today min date in input
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
-  const handleSubmit = (formData) => {
-    // book the chosen time
-    dispatch({ type: 'book', payload: formData.time });
-    // here you’d also POST to a backend, then navigate/confirm
-    alert(`Table booked for ${formData.date} at ${formData.time}`);
+  const submitForm = (formData) => {
+    const success = submitAPI(formData);
+    if (success) {
+      navigate('/confirmed');
+    } else {
+      alert('Something went wrong with your booking.');
+    }
   };
 
   return (
@@ -44,7 +48,7 @@ export default function BookingPage() {
       <BookingForm
         availableTimes={availableTimes}
         dispatch={dispatch}
-        onSubmit={handleSubmit}
+        onSubmit={submitForm} 
         minDate={todayStr}
       />
 
@@ -54,10 +58,9 @@ export default function BookingPage() {
         availableTimes={availableTimes}
         onBook={(time) => {
           dispatch({ type: 'book', payload: time });
-          alert(`Table booked for today at ${time}`); // or pass the real date if needed
+          alert(`Table booked for today at ${time}`);
         }}
       />
-
     </main>
   );
 }
