@@ -29,3 +29,41 @@ test("submits the booking form", () => {
     occasion: "Birthday",
   });
 });
+
+
+test('guests input has min and max attributes', () => {
+  render(
+    <BookingForm
+      availableTimes={['18:00']}
+      dispatch={() => {}}
+      onSubmit={() => {}}
+      minDate="2025-08-01"
+    />
+  );
+
+  const guestsInput = screen.getByLabelText(/guests/i);
+  expect(guestsInput).toHaveAttribute('min', '1');
+  expect(guestsInput).toHaveAttribute('max', '10');
+  expect(guestsInput).toHaveAttribute('required');
+});
+
+test('submit button is enables and disables depending on form validity', () => {
+  render(
+    <BookingForm
+      availableTimes={['18:00']}
+      dispatch={() => {}}
+      onSubmit={() => {}}
+      minDate="2025-08-01"
+    />
+  );
+
+  fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2025-08-02' } });
+  fireEvent.change(screen.getByLabelText(/time/i), { target: { value: '18:00' } });
+  fireEvent.change(screen.getByLabelText(/guests/i), { target: { value: '1' } });
+
+  const submitButton = screen.getByRole('button', { name: /reserve/i });
+  expect(submitButton).not.toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText(/guests/i), { target: { value: '0' } });
+  expect(submitButton).toBeDisabled();
+});

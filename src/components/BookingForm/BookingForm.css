@@ -13,3 +13,8 @@
   border-color: var(--yellow);
   box-shadow: 0 0 0 3px rgba(244, 206, 20, .25);
 }
+.booking-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #888;
+}

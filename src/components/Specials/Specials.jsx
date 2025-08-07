@@ -6,7 +6,7 @@ const specials = [
     id: 1,
     title: "Greek salad",
     price: 12.99,
-    img: "/images/pic.png",
+    img: "/images/Greek-Salad.webp",
     desc:
       "Crispy lettuce, peppers, olives and our Chicago style feta cheese, garnished with garlic and rosemary croutons."
   },
@@ -14,7 +14,7 @@ const specials = [
     id: 2,
     title: "Bruschetta",
     price: 5.99,
-    img: "/images/pic.png",
+    img: "/images/Bruschetta.avif",
     desc:
       "Grilled bread smeared with garlic and seasoned with salt and olive oil."
   },
@@ -22,7 +22,7 @@ const specials = [
     id: 3,
     title: "Lemon Dessert",
     price: 5.00,
-    img: "/images/pic.png",
+    img: "/images/lemonDessert.jpg",
     desc:
       "From grandma’s recipe book; every ingredient is sourced and authentic."
   }

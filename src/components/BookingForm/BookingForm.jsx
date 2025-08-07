@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import './BookingForm.css';
 
 export default function BookingForm({ availableTimes, dispatch, onSubmit, minDate }) {
@@ -10,6 +8,8 @@ export default function BookingForm({ availableTimes, dispatch, onSubmit, minDat
     guests: 2,
     occasion: 'None',
   });
+
+  const isFormValid = form.date && form.time && form.guests >= 1;
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -32,33 +32,35 @@ export default function BookingForm({ availableTimes, dispatch, onSubmit, minDat
 
   return (
     <form onSubmit={handleSubmit} className="booking-form" style={{ display: 'grid', gap: '1rem', maxWidth: 420 }}>
-      <label>
+      <label htmlFor="date">
         Date
-        <input
-          type="date"
-          name="date"
-          value={form.date}
-          min={minDate}
-          onChange={onChange}
-          required
-        />
       </label>
+      <input
+        id="date"
+        type="date"
+        name="date"
+        value={form.date}
+        min={minDate}
+        onChange={onChange}
+        required
+      />
 
       <label>
         Time
-        <select
-          name="time"
-          value={timeOptions.includes(form.time) ? form.time : (timeOptions[0] ?? '')}
-          onChange={onChange}
-          required
-        >
-        {timeOptions.length === 0 ? (
-          <option value="" disabled>No times available</option>
-        ) : (
-          timeOptions.map(t => <option key={t} value={t}>{t}</option>)
-        )}
-        </select>
       </label>
+      <select
+        id="time"
+        name="time"
+        value={timeOptions.includes(form.time) ? form.time : (timeOptions[0] ?? '')}
+        onChange={onChange}
+        required
+      >
+      {timeOptions.length === 0 ? (
+        <option value="" disabled>No times available</option>
+      ) : (
+        timeOptions.map(t => <option key={t} value={t}>{t}</option>)
+      )}
+      </select>
 
       <label>
         Guests
@@ -82,7 +84,7 @@ export default function BookingForm({ availableTimes, dispatch, onSubmit, minDat
         </select>
       </label>
 
-      <button type="submit" className="btn btn-yellow">Reserve</button>
+      <button type="submit" className="btn btn-yellow" disabled={!isFormValid} aria-label="On Click">Reserve</button>
     </form>
   );
 }

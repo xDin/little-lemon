@@ -33,13 +33,20 @@ export default function BookingPage() {
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   const submitForm = (formData) => {
-    const success = submitAPI(formData);
-    if (success) {
-      navigate('/confirmed');
-    } else {
-      alert('Something went wrong with your booking.');
-    }
-  };
+  const success = submitAPI(formData);
+  if (success) {
+    // ✅ Save booking to localStorage
+    const previous = JSON.parse(localStorage.getItem('bookings')) || [];
+    const updated = [...previous, formData];
+    localStorage.setItem('bookings', JSON.stringify(updated));
+
+    // ✅ Navigate to confirmation page
+    navigate('/confirmed');
+  } else {
+    alert('Something went wrong with your booking.');
+  }
+};
+
 
   return (
     <main className="container" style={{ padding: '4rem 0' }}>
@@ -48,7 +55,7 @@ export default function BookingPage() {
       <BookingForm
         availableTimes={availableTimes}
         dispatch={dispatch}
-        onSubmit={submitForm} 
+        onSubmit={submitForm}
         minDate={todayStr}
       />
 

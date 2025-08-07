@@ -13,7 +13,7 @@ function Hero() {
             We are a family owned Mediterranean restaurant,
             focused on traditional recipes served with a modern twist.
           </p>
-          <button>Reserve a Table</button>
+          <button aria-label="Reserve a table from the homepage" className="btn btn-yellow">Reserve a Table</button>
         </div>
         <div className="hero-image">
           <img

@@ -1,0 +1,13 @@
+.comingSoon {
+  padding: 15rem 0;
+  background-color: var(--green-dark);
+}
+
+.comingSoon h1 {
+  font-family: 'Markazi Text', serif;
+  font-size: 8rem;
+  font-weight: 500;
+  color: var(--yellow);
+  text-align: center;
+  margin-top: 0;
+}
